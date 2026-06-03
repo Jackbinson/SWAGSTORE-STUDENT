@@ -124,3 +124,41 @@ describe('Account.update()', () => {
     expect(() => Account.update(99999, {})).toThrow('Account not found.');
   });
 });
+
+// ── Staff Role ───────────────────────────────────────────────
+describe('Account – Staff Role', () => {
+  const STAFF_ACCOUNT = {
+    name: 'Staff Member',
+    email: 'staff@swagstore.com',
+    password: 'StaffPass123!',
+    address: '123 Staff Street',
+  };
+
+  test('can create staff account with role', () => {
+    const staff = Account.add({ ...STAFF_ACCOUNT, role: 'staff' });
+    expect(staff.role).toBe('staff');
+    expect(staff.email).toBe('staff@swagstore.com');
+  });
+
+  test('can find staff by email', () => {
+    Account.add({ ...STAFF_ACCOUNT, role: 'staff' });
+    const staff = Account.findByEmail('staff@swagstore.com');
+    expect(staff).toBeDefined();
+    expect(staff.role).toBe('staff');
+  });
+
+  test('staff can authenticate with correct password', () => {
+    Account.add({ ...STAFF_ACCOUNT, role: 'staff' });
+    const staff = Account.authenticate('staff@swagstore.com', STAFF_ACCOUNT.password);
+    expect(staff).toBeDefined();
+    expect(staff.role).toBe('staff');
+  });
+
+  test('staff and customer roles are different', () => {
+    const customer = Account.add({ ...SAMPLE, role: 'customer' });
+    const staff = Account.add({ ...STAFF_ACCOUNT, role: 'staff' });
+    expect(customer.role).not.toBe(staff.role);
+    expect(customer.role).toBe('customer');
+    expect(staff.role).toBe('staff');
+  });
+});

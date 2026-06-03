@@ -33,4 +33,22 @@ describe('Product model', () => {
     expect(new Set(types).size).toBe(types.length);
     expect(types).toEqual(expect.arrayContaining(['Backpack', 'T-Shirt', 'Onesie']));
   });
+
+  test('includes water bottle product', () => {
+    const products = Product.getAll();
+    const waterBottle = products.find(p => p.id === 7);
+    expect(waterBottle).toBeDefined();
+    expect(waterBottle.name).toBe('Sauce Labs Water Bottle');
+    expect(waterBottle.price).toBe(14.99);
+    expect(waterBottle.category).toBe('Accessories');
+    expect(waterBottle.type).toBe('Water Bottle');
+    expect(waterBottle.badge).toBe('New');
+  });
+
+  test('water bottle is retrievable by id', () => {
+    const waterBottle = Product.getById(7);
+    expect(waterBottle).toBeDefined();
+    expect(waterBottle.name).toBe('Sauce Labs Water Bottle');
+    expect(waterBottle.image).toBe('/images/water-bottle.svg');
+  });
 });
