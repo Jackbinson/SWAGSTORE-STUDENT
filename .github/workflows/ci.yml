@@ -38,6 +38,7 @@ jobs:
           find . -name "*.js" \
             ! -path "./node_modules/*" \
             ! -path "./.github/*" \
+            ! -path "./coverage/*" \
             -exec node --check {} \;
 
   # ── 2. UNIT + INTEGRATION TESTS ───────────────────────────
