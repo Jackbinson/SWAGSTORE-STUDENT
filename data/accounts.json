@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": 1,
+    "name": "Staff Member",
+    "email": "staff@swagstore.com",
+    "password": "$2a$10$F9JvCK5.0wNqN.7.Q.C.PO.i5yt7lYKcPfpM7w8rZ.N7Q6K7Q.C.P",
+    "address": "123 Staff Street",
+    "role": "staff"
+  }
+]
