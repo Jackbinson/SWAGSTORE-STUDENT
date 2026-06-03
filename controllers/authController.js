@@ -25,6 +25,7 @@ exports.login = (req, res) => {
   const { email, password } = req.body;
   const cart = getCart(req);
 
+  // Validate input fields
   if (!email || !password) {
     return res.render('login', {
       error: 'Please fill in all fields.',
@@ -33,6 +34,7 @@ exports.login = (req, res) => {
     });
   }
 
+  // Authenticate user with provided credentials
   const user = Account.authenticate(email, password);
   if (!user) {
     return res.render('login', {
@@ -42,18 +44,21 @@ exports.login = (req, res) => {
     });
   }
 
-  req.session.user = {
+  // Store authenticated user in session
+  const userData = {
     id:      user.id,
     name:    user.name,
     email:   user.email,
     address: user.address || '',
     role:    user.role    || 'customer',
   };
-  res.locals.user = req.session.user;
+  
+  req.session.user = userData;
+  res.locals.user = userData;
 
-  // Redirect: if there was a cart, go to checkout; else home
-  const cart2 = getCart(req);
-  res.redirect(cart2.count > 0 ? '/checkout' : '/');
+  // Determine redirect destination based on cart state
+  const userCart = getCart(req);
+  res.redirect(userCart.count > 0 ? '/checkout' : '/');
 };
 
 exports.logout = (req, res) => {
