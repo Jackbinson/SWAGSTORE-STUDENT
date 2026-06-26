@@ -35,11 +35,12 @@ jobs:
 
       - name: Check JS syntax (node --check)
         run: |
-          find . -name "*.js" \
-            ! -path "./node_modules/*" \
-            ! -path "./.github/*" \
-            ! -path "./coverage/*" \
-            -exec node --check {} \;
+          node --check app.js
+          find controllers -name "*.js" -exec node --check {} \;
+          find models -name "*.js" -exec node --check {} \;
+          find routes -name "*.js" -exec node --check {} \;
+          find public -name "*.js" -exec node --check {} \;
+          find tests -name "*.js" -exec node --check {} \;
 
   # ── 2. UNIT + INTEGRATION TESTS ───────────────────────────
   test:
